@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>koa-websocket点对点通信</title>
+</head>
+
+<body>
+    <div id="loginDiv"
+        style="position: absolute;width:400px;height:200px;left:50%;top:50%;margin-left:-200px;margin-top:-100px;">
+        <div>
+            <label for="nameInput">连接的id(自己的id)</label>
+            <!-- 连接服务器 （上线）-->
+            <input type="text" id="nameInput" placeholder="请输入您的ID" />
+            <input type="button" value="连接" id="certainInput" onclick="ws()" />
+        </div>
+        <div>
+            <!-- 连接成功后，给某个id发动信息 -->
+            <label for="senid">给谁发送</label>
+            <input type="text" placeholder="发送到的id" id="sendId">
+        </div>
+        <div>
+            <label for="sendContent">发送的内容</label>
+            <input type="text" placeholder="发送的内容" id='sendContent'>
+            <input type="button" value="发送" onclick="send()">
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    var webs = null; // websocket对象
+    var mId = null; // 我的id
+    function ws() {
+        mId = document.getElementById('nameInput').value;
+        webs = new WebSocket('ws://localhost:3000/koa/ws?id=' + mId)
+        webs.onopen = function () {
+            console.log('连接成功')
+        }
+        // 接收服务器发送的信息
+        webs.onmessage = function (evt) {
+            console.log(evt)
+        }
+    }
+
+    // 给特定的id发送信息,服务器接收后会向该id发送
+    function send() {
+        var id = document.getElementById('sendId').value;
+        var content = document.getElementById('sendContent').value;
+        var data = {
+            mId: mId,
+            uId: id,
+            content: content
+        }
+        webs.send(JSON.stringify(data))
+    }
+
+</script>
+
+</html>
