@@ -12,5 +12,17 @@
   "dependencies": {
     "@koa/router": "^10.1.0",
     "koa": "^2.13.1"
-  }
+  },
+	"prettier": {
+		"singleQuote": false,
+		"semi": true,
+		"tabWidth": 2,
+		"useTabs": false,
+		"trailingComma": "none",
+		"bracketSpacing": true,
+		"arrowParens": "avoid",
+		"jsxBracketSameLine": false,
+		"proseWrap": "preserve",
+		"printWidth": 80
+	}
 }
